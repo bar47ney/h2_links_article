@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>s</h2>
+    <h2>b</h2>
+    <h2>f</h2>
+    <h2>c</h2>
+
+    <ul id="result"></ul>
+
+    <script>
+      function createAlias(text) {
+        // Удаляем пробелы в начале и конце текста
+        text = text.trim();
+
+        // Заменяем пробелы и другие символы на подчеркивания или дефисы
+        text = text.replace(/\s+/g, "_"); // замена пробелов на подчеркивания
+        // или
+        // text = text.replace(/\s+/g, '-'); // замена пробелов на дефисы
+
+        // Преобразуем текст в латиницу
+        text = transliterate(text);
+
+        // Приводим текст к нижнему регистру
+        text = text.toLowerCase();
+
+        return text;
+      }
+
+      function truncateString(text, delimiter) {
+        // Находим индекс первого вхождения разделителя
+        var firstIndex = text.indexOf(delimiter);
+
+        // Если первый разделитель найден
+        if (firstIndex !== -1) {
+          // Находим индекс второго вхождения разделителя
+          var secondIndex = text.indexOf(delimiter, firstIndex + 1);
+
+          // Если второй разделитель найден
+          if (secondIndex !== -1) {
+            // Обрезаем строку до второго разделителя
+            text = text.substring(0, secondIndex);
+          }
+        }
+
+        return text;
+      }
+
+      function removeColon(text) {
+        // Используем метод replace с регулярным выражением /:/g для замены всех символов ":"
+        let result = text.replace(/:/g, "");
+        result = result.replace(/,/g, "");
+        result = result.replace(/_/g, "");
+        return result;
+      }
+
+      function removeDigits(text) {
+        // Используем метод replace с регулярным выражением /\d/g для замены всех цифр
+        var result = text.replace(/\d/g, "");
+
+        return result;
+      }
+
+      // Пример использования функции
+      var str = "12:34:56";
+      var modifiedStr = removeColon(str);
+      console.log(modifiedStr); // выводит "123456"
+
+      // Пример использования функции
+      var str = "example_text_to_truncate";
+      var truncatedStr = truncateString(str, "_");
+      console.log(truncatedStr); // выводит "example_text"
+
+      function transliterate(text) {
+        var rusToLat = {
+          а: "a",
+          б: "b",
+          в: "v",
+          г: "g",
+          д: "d",
+          е: "e",
+          ё: "yo",
+          ж: "zh",
+          з: "z",
+          и: "i",
+          й: "y",
+          к: "k",
+          л: "l",
+          м: "m",
+          н: "n",
+          о: "o",
+          п: "p",
+          р: "r",
+          с: "s",
+          т: "t",
+          у: "u",
+          ф: "f",
+          х: "h",
+          ц: "ts",
+          ч: "ch",
+          ш: "sh",
+          щ: "sch",
+          ъ: "",
+          ы: "y",
+          ь: "",
+          э: "e",
+          ю: "yu",
+          я: "ya",
+        };
+
+        return text.replace(/[а-яё]/g, function (char) {
+          return rusToLat[char] || char;
+        });
+      }
+
+      const h2_mas = document.querySelectorAll("h2");
+      const result = document.querySelector("#result");
+
+      h2_mas.forEach((element) => {
+        alias = removeColon(
+          removeDigits(truncateString(createAlias(element.innerText), "_"))
+        );
+        element.setAttribute("id", alias);
+
+        result.insertAdjacentHTML(
+          "beforeend",
+          `<li><a href="#${alias}">${element.innerText}</a></li>`
+        );
+      });
+
+      //   alert(result)
+    </script>
+  </body>
+</html>
