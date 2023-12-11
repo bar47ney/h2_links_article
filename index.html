@@ -6,15 +6,14 @@
     <title>Document</title>
   </head>
   <body>
-    <h2>s</h2>
-    <h2>b</h2>
-    <h2>f</h2>
-    <h2>c</h2>
+    
+    <!-- your text -->
 
     <ul id="result"></ul>
 
     <script>
       function createAlias(text) {
+        text = text.toLowerCase();
         // Удаляем пробелы в начале и конце текста
         text = text.trim();
 
@@ -105,9 +104,9 @@
           ч: "ch",
           ш: "sh",
           щ: "sch",
-          ъ: "",
+          ъ: "q",
           ы: "y",
-          ь: "",
+          ь: "q",
           э: "e",
           ю: "yu",
           я: "ya",
@@ -118,7 +117,7 @@
         });
       }
 
-      const h2_mas = document.querySelectorAll("h2");
+      const h2_mas = document.querySelectorAll("h2, h3, h4");
       const result = document.querySelector("#result");
 
       h2_mas.forEach((element) => {
